@@ -15,7 +15,15 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-2xs {
+  font-size: 0.65rem /* 12px */;
+  line-height: 1rem /* 16px */;
+}
+
+.text-wery-size {
+  font-size: 18rem;
+  line-height: 18rem
 }
