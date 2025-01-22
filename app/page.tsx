@@ -1,9 +1,5 @@
-'client component'
-
 import { Metadata } from "next";
-import { InitDefaultCarousel } from "@/helper/CarouselHelper";
 import Carousel from "@/components/Carousel";
-import 'flowbite/dist/flowbite.css';
 
 export const metadata: Metadata = {
   title: "My Site",

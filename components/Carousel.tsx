@@ -1,124 +1,117 @@
 "use client";
 
 import React from "react";
-import { InitDefaultCarousel } from "@/helper/CarouselHelper";
+import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 
 const Carousel: React.FunctionComponent = () => {
-  
   React.useEffect(() => {
-    InitDefaultCarousel("carousel-example");
-  }, [])
+    const slider = document.querySelector("#slider") as HTMLElement;
+    const slidesList = slider.firstElementChild as HTMLElement;
+    const sticks = [...slider.querySelectorAll("#sticks")];
+
+    let sliderWidth = slider.clientWidth;
+    let currentIndex = 0;
+    let maxElem = 2;
+
+    if (!sliderWidth || !slidesList || !slider) return;
+
+    window.addEventListener("resize", () => {
+      sliderWidth = slider.clientWidth;
+      console.log(sliderWidth);
+    });
+
+    setInterval(() => {
+      let beforeIndex = currentIndex;
+
+      if (currentIndex >= maxElem) {
+        currentIndex = 0;
+        beforeIndex = maxElem;
+      } else {
+        currentIndex++;
+      }
+
+      nextSlide();
+      changeStick(beforeIndex);
+    }, 3000);
+
+    const nextSlide = (index: number | null = null) => {
+      if (index) {
+        currentIndex = index;
+      }
+
+      slidesList.style.right = sliderWidth * currentIndex + "px";
+    };
+
+    const beforeSlide = (index: number | null = null) => {
+      if (index) {
+        currentIndex = index;
+      }
+
+      slidesList.style.right = sliderWidth * currentIndex + "px";
+    }
+
+    const changeStick = (beforeIndex: number) => {
+      const activeStick = sticks[currentIndex] as HTMLElement;
+      const beforeStick = sticks[beforeIndex] as HTMLElement;
+
+      activeStick.classList.remove("hidden");
+      beforeStick.classList.add("hidden");
+    };
+  }, []);
 
   return (
-    <div id="carousel-example" className="relative w-full" data-carousel="static">
-      <div className="relative h-56 overflow-hidden rounded-lg sm:h-64 xl:h-80 2xl:h-96">
-        <div id="carousel-item-1" className="hidden duration-700 ease-in-out w-full" data-carousel-item>
+    <div
+      id="slider"
+      className="w-full h-52 xl:h-96 bg-gray-200 overflow-hidden relative rounded-lg sm:h-64"
+    >
+      <div
+        className="absolute h-full w-full flex duration-1000 ease-in-out"
+        style={{ right: "0px" }}
+      >
+        <div className="min-w-full">
           <img
             src="https://pub-c2c1d9230f0b4abb9b0d2d95e06fd4ef.r2.dev/sites/46/2015/07/W10_Desktop_Cortana_Home_16x9_en-USwetyr-2.jpg"
-            className="absolute left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-            alt="..."
+            alt=""
+            className="w-full absolute block -translate-y-1/2 top-1/2"
           />
         </div>
-        <div id="carousel-item-2" className="hidden duration-700 ease-in-out w-full" data-carousel-item>
+        <div className="min-w-full">
           <img
-            src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
-            className="absolute left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-            alt="..."
+            src="https://img.ixbt.site/live/topics/preview/00/07/92/91/16ecb2aa16.jpg"
+            alt=""
+            className="w-full absolute block -translate-y-1/2 top-1/2"
           />
         </div>
-        <div id="carousel-item-3" className="hidden duration-700 ease-in-out w-full" data-carousel-item>
-          <img
-            src="https://pub-c2c1d9230f0b4abb9b0d2d95e06fd4ef.r2.dev/sites/46/2015/07/W10_Desktop_Cortana_Home_16x9_en-USwetyr-2.jpg"
-            className="absolute left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-            alt="..."
-          />
-        </div>
-        <div id="carousel-item-4" className="hidden duration-700 ease-in-out w-full" data-carousel-item>
+        <div className="min-w-full">
           <img
             src="https://pub-c2c1d9230f0b4abb9b0d2d95e06fd4ef.r2.dev/sites/46/2015/07/W10_Desktop_Cortana_Home_16x9_en-USwetyr-2.jpg"
-            className="absolute left-1/2 block w-full -translate-x-1/2 -translate-y-1/2"
-            alt="..."
+            alt=""
+            className="w-full absolute block -translate-y-1/2 top-1/2"
           />
         </div>
       </div>
-      <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse">
-        <button
-          id="carousel-indicator-1"
-          type="button"
-          className="h-3 w-3 rounded-full"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          id="carousel-indicator-2"
-          type="button"
-          className="h-3 w-3 rounded-full"
-          aria-current="false"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          id="carousel-indicator-3"
-          type="button"
-          className="h-3 w-3 rounded-full"
-          aria-current="false"
-          aria-label="Slide 3"
-        ></button>
-        <button
-          id="carousel-indicator-4"
-          type="button"
-          className="h-3 w-3 rounded-full"
-          aria-current="false"
-          aria-label="Slide 4"
-        ></button>
+      <div className="relative top-0 w-full h-full opacity-40 hover:opacity-100 duration-300 ease-in-out">
+        <div className="relative w-full flex justify-between h-fit top-1/2 -translate-y-1/2 px-4">
+          <button className="p-2 bg-white rounded-full">
+            <FaAngleLeft size={36} color="#fe5245" />
+          </button>
+          <button className="p-2 bg-white rounded-full">
+            <FaAngleRight size={36} color="#fe5245" />
+          </button>
+        </div>
+        <div className="absolute h-fit bottom-4 left-1/2 -translate-x-1/2 flex gap-1 w-fit">
+          <button className="w-4 h-4 bg-gray-100 flex justify-center items-center shadow-lg">
+            <div className="w-3 h-3 bg-red-600" id="sticks"></div>
+          </button>
+          <button className="w-4 h-4 bg-gray-100 flex justify-center items-center shadow-lg">
+            <div className="w-3 h-3 bg-red-600 hidden" id="sticks"></div>
+          </button>
+          <button className="w-4 h-4 bg-gray-100 flex justify-center items-center shadow-lg">
+            <div className="w-3 h-3 bg-red-600 hidden" id="sticks"></div>
+          </button>
+        </div>
       </div>
-      <button
-        id="data-carousel-prev"
-        type="button"
-        className="group absolute left-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
-      >
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70">
-          <svg
-            className="h-4 w-4 text-white dark:text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 1 1 5l4 4"
-            />
-          </svg>
-          <span className="hidden">Previous</span>
-        </span>
-      </button>
-      <button
-        id="data-carousel-next"
-        type="button"
-        className="group absolute right-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
-      >
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70">
-          <svg
-            className="h-4 w-4 text-white dark:text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 9 4-4-4-4"
-            />
-          </svg>
-          <span className="hidden">Next</span>
-        </span>
-      </button>
     </div>
   );
 };
