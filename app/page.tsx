@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Carousel from "@/components/Carousel";
+import DifferentSizeBlocks from "@/components/DifferentSizeBlocks";
 
 export const metadata: Metadata = {
   title: "My Site",
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Carousel></Carousel>
+    <div>
+      <Carousel></Carousel>
+      <DifferentSizeBlocks></DifferentSizeBlocks>
+    </div>
   );
 }

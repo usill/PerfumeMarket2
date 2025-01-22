@@ -10,11 +10,10 @@ const Carousel: React.FunctionComponent = () => {
     carouselHook.useCarousel("#slider");
   }, []);
 
-
   return (
     <div
       id="slider"
-      className="w-full h-52 xl:h-96 bg-gray-200 overflow-hidden relative rounded-lg sm:h-64"
+      className="w-full h-52 xl:h-96 bg-gray-200 overflow-hidden relative sm:h-64"
     >
       <div
         className="absolute h-full w-full flex duration-1000 ease-in-out"

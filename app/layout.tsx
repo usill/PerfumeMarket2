@@ -53,13 +53,13 @@ export default function RootLayout({
             </Link>
           </nav>
           <nav className="flex items-center gap-4">
-            <div className="bg-red-100 p-3.5 rounded-full">
+            <div className="p-2.5">
               <FaSearch size="16" color="#fe5245"></FaSearch>
             </div>
-            <div className="bg-red-100 p-3.5 rounded-full">
+            <div className="p-2.5">
               <FiUser size="18" color="#fe5245"></FiUser>
             </div>
-            <div className="bg-red-100 p-3.5 rounded-full relative">
+            <div className="p-2.5 relative">
               <div className="w-5 h-5 absolute bg-red-600 -right-1 -top-1 rounded-full text-2xs flex justify-center items-center text-white font-bold">
                 11
               </div>
