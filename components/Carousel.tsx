@@ -16,49 +16,97 @@ const Carousel: React.FunctionComponent = () => {
 
     if (!sliderWidth || !slidesList || !slider) return;
 
-    window.addEventListener("resize", () => {
-      sliderWidth = slider.clientWidth;
-      console.log(sliderWidth);
-    });
-
-    setInterval(() => {
-      let beforeIndex = currentIndex;
-
-      if (currentIndex >= maxElem) {
-        currentIndex = 0;
-        beforeIndex = maxElem;
-      } else {
-        currentIndex++;
-      }
-
-      nextSlide();
-      changeStick(beforeIndex);
-    }, 3000);
-
-    const nextSlide = (index: number | null = null) => {
-      if (index) {
-        currentIndex = index;
-      }
-
-      slidesList.style.right = sliderWidth * currentIndex + "px";
+    const nextSlide = () => {
+      const index = checkPosition(currentIndex + 1);
+      const beforeIndex = currentIndex - 1;
+      changeSlideTo(index, beforeIndex);
     };
 
-    const beforeSlide = (index: number | null = null) => {
-      if (index) {
+    const beforeSlide = () => {
+      const index = checkPosition(currentIndex - 1);
+      const beforeIndex = currentIndex + 1;
+      changeSlideTo(index, beforeIndex);
+    }
+
+    const checkPosition = (index:number): number => {
+      let result = 0;
+
+      if (index <= maxElem) {
+        result = index;
+      }
+      if (index < 0) {
+        result = maxElem;
+      }
+
+      currentIndex = result;
+      return result;
+    }
+
+    const changeSlideTo = (index: number, beforeIndex: number) => {
+      if (index || index === 0) {
         currentIndex = index;
+      }
+      if(beforeIndex < 0) {
+        beforeIndex = maxElem;
+      }
+      if(beforeIndex > maxElem) {
+        beforeIndex = 0
       }
 
       slidesList.style.right = sliderWidth * currentIndex + "px";
+      changeStickTo(beforeIndex);
     }
 
-    const changeStick = (beforeIndex: number) => {
+    const changeStickTo = (beforeIndex: number) => {
       const activeStick = sticks[currentIndex] as HTMLElement;
       const beforeStick = sticks[beforeIndex] as HTMLElement;
 
       activeStick.classList.remove("hidden");
       beforeStick.classList.add("hidden");
     };
+
+    const beforeButton = slider.querySelector("#slider-before-button");
+    const nextButton = slider.querySelector("#slider-next-button");
+
+    beforeButton?.addEventListener('click', () => {
+      beforeSlide();
+    })
+
+    nextButton?.addEventListener('click', () => {
+      nextSlide();
+    })
+
+    let intervalId: NodeJS.Timeout;
+
+    window.addEventListener("resize", () => {
+      sliderWidth = slider.clientWidth;
+    });
+
+    slider.addEventListener('mouseenter', () => {
+      clearInterval(intervalId);
+    })
+
+    slider.addEventListener('mouseleave', () => {
+      intervalId = setInterval(nextSlide, 3000);
+    })
+
+    sticks.forEach((value, index) => {
+      const stick:HTMLElement = value.parentElement as HTMLElement;
+
+      stick.addEventListener('click', () => {
+        let currentActiveStick = 0;
+
+        sticks.forEach((v, i) => {
+          if(!v.classList.contains("hidden")) {
+            currentActiveStick = i;
+          }
+        })
+
+        changeSlideTo(index, currentActiveStick);
+      })
+    })
   }, []);
+
 
   return (
     <div
@@ -93,10 +141,10 @@ const Carousel: React.FunctionComponent = () => {
       </div>
       <div className="relative top-0 w-full h-full opacity-40 hover:opacity-100 duration-300 ease-in-out">
         <div className="relative w-full flex justify-between h-fit top-1/2 -translate-y-1/2 px-4">
-          <button className="p-2 bg-white rounded-full">
+          <button className="p-2 bg-white rounded-full" id="slider-before-button">
             <FaAngleLeft size={36} color="#fe5245" />
           </button>
-          <button className="p-2 bg-white rounded-full">
+          <button className="p-2 bg-white rounded-full" id="slider-next-button">
             <FaAngleRight size={36} color="#fe5245" />
           </button>
         </div>
