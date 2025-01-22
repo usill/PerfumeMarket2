@@ -3,108 +3,11 @@
 import React from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
+import carouselHook from "@/hooks/CarouselHook";
 
 const Carousel: React.FunctionComponent = () => {
   React.useEffect(() => {
-    const slider = document.querySelector("#slider") as HTMLElement;
-    const slidesList = slider.firstElementChild as HTMLElement;
-    const sticks = [...slider.querySelectorAll("#sticks")];
-
-    let sliderWidth = slider.clientWidth;
-    let currentIndex = 0;
-    let maxElem = 2;
-
-    if (!sliderWidth || !slidesList || !slider) return;
-
-    const nextSlide = () => {
-      const index = checkPosition(currentIndex + 1);
-      const beforeIndex = currentIndex - 1;
-      changeSlideTo(index, beforeIndex);
-    };
-
-    const beforeSlide = () => {
-      const index = checkPosition(currentIndex - 1);
-      const beforeIndex = currentIndex + 1;
-      changeSlideTo(index, beforeIndex);
-    }
-
-    const checkPosition = (index:number): number => {
-      let result = 0;
-
-      if (index <= maxElem) {
-        result = index;
-      }
-      if (index < 0) {
-        result = maxElem;
-      }
-
-      currentIndex = result;
-      return result;
-    }
-
-    const changeSlideTo = (index: number, beforeIndex: number) => {
-      if (index || index === 0) {
-        currentIndex = index;
-      }
-      if(beforeIndex < 0) {
-        beforeIndex = maxElem;
-      }
-      if(beforeIndex > maxElem) {
-        beforeIndex = 0
-      }
-
-      slidesList.style.right = sliderWidth * currentIndex + "px";
-      changeStickTo(beforeIndex);
-    }
-
-    const changeStickTo = (beforeIndex: number) => {
-      const activeStick = sticks[currentIndex] as HTMLElement;
-      const beforeStick = sticks[beforeIndex] as HTMLElement;
-
-      activeStick.classList.remove("hidden");
-      beforeStick.classList.add("hidden");
-    };
-
-    const beforeButton = slider.querySelector("#slider-before-button");
-    const nextButton = slider.querySelector("#slider-next-button");
-
-    beforeButton?.addEventListener('click', () => {
-      beforeSlide();
-    })
-
-    nextButton?.addEventListener('click', () => {
-      nextSlide();
-    })
-
-    let intervalId: NodeJS.Timeout;
-
-    window.addEventListener("resize", () => {
-      sliderWidth = slider.clientWidth;
-    });
-
-    slider.addEventListener('mouseenter', () => {
-      clearInterval(intervalId);
-    })
-
-    slider.addEventListener('mouseleave', () => {
-      intervalId = setInterval(nextSlide, 3000);
-    })
-
-    sticks.forEach((value, index) => {
-      const stick:HTMLElement = value.parentElement as HTMLElement;
-
-      stick.addEventListener('click', () => {
-        let currentActiveStick = 0;
-
-        sticks.forEach((v, i) => {
-          if(!v.classList.contains("hidden")) {
-            currentActiveStick = i;
-          }
-        })
-
-        changeSlideTo(index, currentActiveStick);
-      })
-    })
+    carouselHook.useCarousel("#slider");
   }, []);
 
 
