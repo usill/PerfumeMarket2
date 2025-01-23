@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Rubik } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { FaSearch } from "react-icons/fa";
@@ -8,14 +8,9 @@ import { BsCart4 } from "react-icons/bs";
 import Logo from "@/components/Logo";
 import { IoMdTime } from "react-icons/io";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const rubik = Rubik({
+  subsets: ["cyrillic", "latin"],
+  weight: ['300', '400', '500', '600'],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased container mx-auto min-h-screen flex flex-col`}
+        className={`${rubik.className} antialiased container mx-auto min-h-screen flex flex-col`}
       >
         <header className="flex justify-between py-6">
           <Logo></Logo>

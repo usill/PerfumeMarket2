@@ -12,6 +12,11 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      height: {
+        'big': '38rem',
+        '2big': '52rem',
+        'large': '66rem',
+      }
     },
   },
   plugins: [],
